@@ -19,6 +19,33 @@ TYPE
 	UInt = UNSIGNED32;
 	Size = SIZE;
 
+CONST
+	LibName = 'libircclient.so';
+	
+	(* Error codes *)
+	ErrOk = 0;
+	ErrInval = 1;
+	ErrResolv = 2;
+	ErrSocket = 3;
+	ErrConnect = 4;
+	ErrClosed = 5;
+	ErrNomem = 6;
+	ErrAccept = 7;
+	(* 8 is missing *)
+	ErrNoDccSend = 9;
+	ErrRead = 10;
+	ErrWrite = 11;
+	ErrState = 12;
+	ErrTimeout = 13;
+	ErrOpenFile = 14;
+	ErrTerminated = 15;
+	ErrNoipv6 = 16;
+	ErrSslNotSupported = 17;
+	ErrSslInitFailed = 18;
+	ErrConnectSslFailed = 19;
+	ErrSslCertVerifyFailed = 20;
+	ErrMax = 21;
+
 VAR
 	Lib: ADDRESS;
 
@@ -96,9 +123,6 @@ VAR
 	(* ETC *)
 	GetVersion-: PROCEDURE{C}(high: PUint; low: PUint);
 	SetCtcpVersion-: PROCEDURE{C}(session: Session; version: PChar);
-
-CONST
-	LibName = 'libircclient.so';
 
 PROCEDURE Link;
 BEGIN
