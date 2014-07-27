@@ -1,6 +1,6 @@
 MODULE InternetRelayChat;
 
-IMPORT Unix, Modules, Trace;
+IMPORT Unix, Modules;
 
 TYPE
 	(* Structs/similars *)
@@ -18,175 +18,6 @@ TYPE
 	UShort = UNSIGNED16;
 	UInt = UNSIGNED32;
 	Size = SIZE;
-
-CONST
-	LibName = 'libircclient.so';
-	
-	(* Error codes *)
-	ErrOk = 0;
-	ErrInval = 1;
-	ErrResolv = 2;
-	ErrSocket = 3;
-	ErrConnect = 4;
-	ErrClosed = 5;
-	ErrNomem = 6;
-	ErrAccept = 7;
-	(* 8 is missing *)
-	ErrNoDccSend = 9;
-	ErrRead = 10;
-	ErrWrite = 11;
-	ErrState = 12;
-	ErrTimeout = 13;
-	ErrOpenFile = 14;
-	ErrTerminated = 15;
-	ErrNoipv6 = 16;
-	ErrSslNotSupported = 17;
-	ErrSslInitFailed = 18;
-	ErrConnectSslFailed = 19;
-	ErrSslCertVerifyFailed = 20;
-	ErrMax = 21;
-	
-	(* Options *)
-	OptionDebug = 2;
-	OptionStripNicks = 4;
-	OptionSslNoVerify = 8;
-	
-	(* RFC codes *)
-	RfcRplWelcome = 001;
-	RfcRplYourHost = 002;
-	RfcRplCreated = 003;
-	RfcRplMyInfo = 004;
-	RfcRplBounce = 005;
-	RfcRplUserHost = 302;
-	RfcRplIsOn = 303;
-	RfcRplAway = 301;
-	RfcRplUnAayY = 305;
-	RfcRplNowAway = 306;
-	RfcRplWhoisUser = 311;
-	RfcRplWhoisServer = 312;
-	RfcRplWhoisOperator = 313;
-	RfcRplWhoisIdle = 317;
-	RfcRplEndOfWhois = 318;
-	RfcRplWhoisChannels = 319;
-	RfcRplWhowasUser = 314;
-	RfcRplEndofWhowas = 369;
-	RfcRplList = 322;
-	RfcRplListEnd = 323;
-	RfcRplUniqOpis = 325;
-	RfcRplChannelModeIs = 324;
-	RfcRplNoTopic = 331;
-	RfcRplTopic = 332;
-	RfcRplInviting = 341;
-	RfcRplSummoning = 342;
-	RfcRplInviteList = 346;
-	RfcRplEndOfInviteList = 347;
-	RfcRplExceptList = 348;
-	RfcRplEndOfExceptList = 349;
-	RfcRplVersion = 351;
-	RfcRplWhoReply = 352;
-	RfcRplEndOfWho = 315;
-	RfcRplNamReply = 353;
-	RfcRplEndOfNames = 366;
-	RfcRplLinks = 364;
-	RfcRplEndOfLinks = 365;
-	RfcRplBanList = 367;
-	RfcRplEndOfBanList = 368;
-	RfcRplInfo = 371;
-	RfcRplEndOfInfo = 374;
-	RfcRplMotdStart = 375;
-	RfcRplMotd = 372;
-	RfcRplEndOfMotd = 376;
-	RfcRplYoureOper = 381;
-	RfcRplRehashing = 382;
-	RfcRplYoureService = 383;
-	RfcRplTime = 391;
-	RfcRplUsersStart = 392;
-	RfcRplUsers = 393;
-	RfcRplEndOfUsers = 394;
-	RfcRplNoUsers = 395;
-	RfcRplTraceLink = 200;
-	RfcRplTraceConnecting = 201;
-	RfcRplTraceHandShake = 202;
-	RfcRplTraceUnknown = 203;
-	RfcRplTraceOperator = 204;
-	RfcRplTraceUser = 205;
-	RfcRplTraceServer = 206;
-	RfcRplTraceService = 207;
-	RfcRplTraceNewtype = 208;
-	RfcRplTraceClass = 209;
-	RfcRplTraceLog = 261;
-	RfcRplTraceEnd = 262;
-	RfcRplStatsLinkInfo = 211;
-	RfcRplStatsCommands = 212;
-	RfcRplEndOfStats = 219;
-	RfcRplSstatUptime = 242;
-	RfcRplStatsOLine = 243;
-	RfcRplUmodeIs = 221;
-	RfcRplServList = 234;
-	RfcRplServListEnd = 235;
-	RfcRplLUserClient = 251;
-	RfcRplLUserOp = 252;
-	RfcRplLUserUnknown = 253;
-	RfcRplLUserChannels = 254;
-	RfcRplLUserMe = 255;
-	RfcRplAdminME = 256;
-	RfcRplAdminLoc1 = 257;
-	RfcRplAdminLoc2 = 258;
-	RfcRplAdminEmail = 259;
-	RfcRplTryAgain = 263;
-	RfcErrNoSuchNIck = 401;
-	RfcErrNoSuchServer = 402;
-	RfcErrNoSuchChannel = 403;
-	RfcErrCannotSendToChan = 404;
-	RfcErrTooManyChannels = 405;
-	RfcErrWasNoSuchNick = 406;
-	RfcErrTooManyTargets = 407;
-	RfcErrNoSuchService = 408;
-	RfcErrNoOrigin = 409;
-	RfcErrNoRecipient = 411;
-	RfcErrNoTextToSend = 412;
-	RfcErrNoTopLevel = 413;
-	RfcErrWildTopLevel = 414;
-	RfcErrBadMask = 415;
-	RfcErrUnknownCommand = 421;
-	RfcErrNoMotd = 422;
-	RfcErrNoAdminInfo = 423;
-	RfcErrFileError = 424;
-	RfcErrNoNickNameGiven = 431;
-	RfcErrErroneusNickname = 432;
-	RfcErrNicknameInUse = 433;
-	RfcErrNickCollision = 436;
-	RfcErrUnavailResource = 437;
-	RfcErrUserNotInChannel = 441;
-	RfcErrNotOnChannel = 442;
-	RfcErrUserOnChannel = 443;
-	RfcErrNoLogin = 444;
-	RfcErrSummonDisabled = 445;
-	RfcErrUsersDisabled = 446;
-	RfcErrNotRegistered = 451;
-	RfcErrNeedMoreParams = 461;
-	RfcErrAlreadyRegistered = 462;
-	RfcErrNoPermForHost = 463;
-	RfcErrPasswdMismatch = 464;
-	RfcErrYoureBannedCreep = 465;
-	RfcErrYouWillBeBanned = 466;
-	RfcErrKeyset = 467;
-	RfcErrChannelIsFull = 471;
-	RfcErrUnknownMode = 472;
-	RfcErrInviteOnlyChan = 473;
-	RfcErrBannedFromChan = 474;
-	RfcErrBadChannelKey = 475;
-	RfcErrBadChanMask = 476;
-	RfcErrNoChanModes = 477;
-	RfcErrBanListFull = 478;
-	RfcErrNoPrivileges = 481;
-	RfcErrChanoPrivsNeeded = 482;
-	RfcErrCantKillServer = 483;
-	RfcErrRestricted = 484;
-	RfcErrUniqopPrivsNeeded = 485;
-	RfcErrNoOperHost = 491;
-	RfcErrUmodeUnknownFlag = 501;
-	RfcErrUsersDontMatch = 502;
 
 VAR
 	Lib: ADDRESS;
@@ -265,6 +96,9 @@ VAR
 	(* ETC *)
 	GetVersion-: PROCEDURE{C}(high: PUint; low: PUint);
 	SetCtcpVersion-: PROCEDURE{C}(session: Session; version: PChar);
+
+CONST
+	LibName = 'libircclient.so';
 
 PROCEDURE Link;
 BEGIN
