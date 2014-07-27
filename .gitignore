@@ -1,0 +1,7 @@
+AOS*.Log
+.tmp*
+.aoshome
+*.Obj
+*.Bak
+Trap*.txt
+
